@@ -16,7 +16,7 @@
 <!-- Site wrapper -->
 <div class="wrapper">
   <!-- Navbar -->
-  @include ('layouts.navbar')
+  @include ('layouts.header')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -39,7 +39,7 @@
 
     <!-- Main content -->
     <section class="content">
-    @include (@yield('content'))
+    @yield ('content')
 
     </section>
     <!-- /.content -->

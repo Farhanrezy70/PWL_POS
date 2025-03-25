@@ -7,6 +7,7 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\WelcomeController;
 use Monolog\Handler\RotatingFileHandler;
 
 /*
@@ -55,6 +56,7 @@ Route::post('/kategori', [KategoriController::class, 'store']);
 Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
 Route::resource('kategori', KategoriController::class);
+Route::get('/', [WelcomeController::class, 'index']);
 
 
 
