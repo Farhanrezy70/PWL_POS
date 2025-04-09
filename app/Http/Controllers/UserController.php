@@ -11,25 +11,32 @@ class UserController extends Controller
 {
     // Menampilkan halaman awal user
     public function index()
-    {
-        $breadcrumb = (object) [
-            'title' => 'Daftar User',
-            'list' => ['Home', 'User']
-        ];
+{
+    $breadcrumb = (object) [
+        'title' => 'Daftar User',
+        'list' => ['Home', 'User']
+    ];
 
-        $page = (object) [
-            'title' => 'Daftar user yang terdaftar dalam sistem'
-        ];
+    $page = (object) [
+        'title' => 'Daftar user yang terdaftar dalam sistem'
+    ];
 
-        $activeMenu = 'user'; // set menu yang sedang aktif
+    $activeMenu = 'user'; // set menu yang sedang aktif
+    $level = LevelModel::all(); // ambil semua data level
 
-        return view('user.index', compact('breadcrumb', 'page', 'activeMenu'));
-    }
+    return view('user.index', compact('breadcrumb', 'page', 'activeMenu', 'level'));
+}
+
 
     // Ambil data user dalam bentuk json untuk datatables
     public function list(Request $request)
     {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')->with('level');
+
+        // Filter data user berdasarkan level_id
+        if ($request->level_id) {
+            $users->where('level_id', $request->level_id);
+        }
 
         return DataTables::of($users)
             ->addIndexColumn() // Menambahkan kolom index / no urut (default: DT_RowIndex)
@@ -100,7 +107,9 @@ class UserController extends Controller
 
         $activeMenu = 'user'; // set menu yang sedang aktif
 
-        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+        $level = LevelModel::all(); // ambil data level untuk filter level
+
+        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
     // Menampilkan halaman form edit user
     public function edit(string $id)
