@@ -9,4 +9,10 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+    
+    public function index()
+    {
+        $kategori = Kategori::all();
+        return view('kategori.index', compact('kategori'));
+    }
 }
