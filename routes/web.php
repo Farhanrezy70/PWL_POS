@@ -89,18 +89,16 @@ Route::group(['prefix' => 'user'], function () {
 });
 
 // Route untuk Level
-Route::prefix('level')->group(function () {
-    Route::get('/', [LevelController::class, 'index']);
-    Route::get('/{id}', [LevelController::class, 'show']);
-    Route::post('/list', [LevelController::class, 'list']);
-    Route::get('/create_ajax', [LevelController::class, 'create_ajax']);
-    Route::post('/ajax', [LevelController::class, 'store_ajax']);
-    Route::get('/{level}/edit_ajax', [LevelController::class, 'edit_ajax']);
-    Route::put('/{level}/update_ajax', [LevelController::class, 'update_ajax']);
-    Route::get('/{level}/delete_ajax', [LevelController::class, 'confirm_ajax']);
-    Route::delete('/{level}/delete_ajax', [LevelController::class, 'delete_ajax']);
-
+Route::middleware(['authorize:ADM'])->group(function () {
+    Route::get('/level', [LevelController::class, 'index']);
+    Route::post('/level/list', [LevelController::class, 'list']); // untuk list json datatables
+    Route::get('/level/create', [LevelController::class, 'create']);
+    Route::post('/level/store', [LevelController::class, 'store']);
+    Route::get('/level/{id}/edit', [LevelController::class, 'edit']); // untuk tampilkan form edit
+    Route::put('/level/{id}', [LevelController::class, 'update']); // untuk proses update data
+    Route::delete('/level/{id}', [LevelController::class, 'destroy']); // untuk proses hapus data
 });
+
 
 // Route untuk Kategori
 Route::prefix('kategori')->group(function () {
